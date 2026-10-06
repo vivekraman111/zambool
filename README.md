@@ -14,7 +14,7 @@ The developer defines the data source and transformations, and creates the leaf 
 
 This simple image gallery illustrates the basic principles of Zambool.
 
-![Zambool image gallery](docs/image-gallery.jpg)
+![Zambool image gallery](docs/image_gallery.jpg)
 
 ### JSON
 The UI structure is described using JSON. The JSON defines the data provider, iteration, and the leaf components used to render each gallery item. The JSON can be stored externally and loaded at runtime, allowing the UI structure to be modified without rebuilding the application.
