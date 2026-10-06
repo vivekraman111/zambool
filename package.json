@@ -1,0 +1,36 @@
+{
+  "name": "zambool",
+  "version": "0.1.0",
+  "description": "A data-coded component framework for AI",
+  "type": "module",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src --out-dir dist --extensions .js --copy-files"
+  },
+  "dependencies": {
+    "immer": "^11.1.4"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vivekraman111/zambool.git"
+  },
+  "author": "Vivek Raman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vivekraman111/zambool/issues"
+  },
+  "homepage": "https://github.com/vivekraman111/zambool#readme",
+  "devDependencies": {
+    "@babel/cli": "^8.0.6",
+    "@babel/core": "^8.0.6",
+    "@babel/preset-env": "^8.0.6",
+    "@babel/preset-react": "^8.0.1"
+  }
+}
