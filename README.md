@@ -187,15 +187,79 @@ registerPlatformComponents({
 
 #### Load and render the JSON
 Load the application definition from an external JSON source and render it using `ServerRenderer`.
+The way the JSON is loaded is different for client side react and Server Rendered React. The choice between client-side rendering and server-side rendering is independent of Zambool. Both approaches are supported, as shown in the following examples.
+
+##### Client Side React (Vite)
+useEffect runs after the initial render, so the gallery isn't rendered until the JSON has been fetched. The external stylesheets are loaded independently.
+
+```javascript
+function Page() {
+  const [gallery, setGallery] = React.useState(null);
+  const [error, setError] = React.useState(null);
+
+  React.useEffect(() => {
+    fetch(`${CONTENT_URL}/gallery.json`, {
+      cache: "no-store",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(setGallery)
+      .catch((err) => {
+        console.error("Failed to load gallery:", err);
+        setError(err.message);
+      });
+  }, []);
+
+  return (
+    <>
+      <link
+        rel="stylesheet"
+        href={`${CONTENT_URL}/reset.css`}
+      />
+      <link
+        rel="stylesheet"
+        href={`${CONTENT_URL}/gallery.css`}
+      />
+
+      {error ? (
+        <p>Failed to load gallery: {error}</p>
+      ) : gallery === null ? (
+        <p>Loading gallery...</p>
+      ) : (
+        <ServerRenderer tree={gallery} />
+      )}
+    </>
+  );
+}
+```
+
+[See the complete Vite + React example on GitHub.](https://github.com/vivekraman111/zambool-gallery-vite)
+
+##### Server Rendered React (Next.js)
+The JSON is fetched from the server and rendered into the returned html. Both client and server components can be used.
 ```javascript
 export default async function Home() {
-  const gallery = await fetchJSON("/content/gallery.json");
+  const response = await fetch(`${CONTENT_URL}/gallery.json`, {
+    cache: "no-store",
+  });
+  
+  if (!response.ok) {
+    throw new Error(`Failed to load gallery: ${response.status}`);
+  }
+  
+  const gallery = await response.json();
 
   return (
     <ServerRenderer tree={gallery} />
   );
 }
 ```
+
+[See the complete Next.js example on GitHub.](https://github.com/vivekraman111/zambool-gallery)
 
 ## Installation
 
